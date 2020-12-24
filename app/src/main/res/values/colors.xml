@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorWhiteBack">#f4f4f4</color>
+    <color name="colorCutOffLine2">#dbdbdb</color>
+    <color name="colorBule">#00a6ac</color>
+    <color name="colorGreen">#65c294</color>
+    <color name="colorDeepGreen">#005344</color>
+    <color name="colorYellowGreen">#bed742</color>
+    <color name="colorYellow">#ffc20e</color>
+    <color name="colorAlphaBlack1">#cc000000</color>
+    <color name="colorAlphaBlack">#99000000</color>
+    <color name="colorAlphaBlackLow">#69000000</color>
+    <color name="colorCustomYellow">#feaa53</color>
+    <color name="colorTuoManBack">#222b53</color>
+    <color name="colorLoginBack">#283870</color>
+    <color name="colorBlueShade">#689fff</color>
+    <color name="colorTuomanRed">#f62a5a</color>
+    <color name="colorRbSelected">#1296db</color>
+    <color name="colorRbNotSelected">#8a8a8a</color>
+    <color name="colorRed">#d81e06</color>
+    <color name="alipayBlue">#108ee9</color>
+    <color name="wechatGreen">#2F9833</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="green_1">#FF1EC4BD</color>
+    <color name="green_2">#1EC4BD</color>
+    <color name="color_EEEEEE">#EEEEEE</color>
+
+    <color name="app_color_blue">#00A8E1</color>
+    <color name="app_color_blue_disabled">#8000A8E1</color>
+    <color name="app_color_blue_pressed">#c000A8E1</color>
+
+    <color name="app_color_blue_2">#31BDF3</color>
+    <color name="app_color_blue_2_disabled">#7F31BDF3</color>
+    <color name="app_color_blue_2_pressed">#7F31BDF3</color>
+
+    <color name="app_color_blue_3">#EBF9FF</color>
+    <color name="app_color_blue_3_disabled">#7FEBF9FF</color>
+    <color name="app_color_blue_3_pressed">#7FEBF9FF</color>
+
+    <color name="color_FF3B99FC">#FF3B99FC</color>
+    <color name="color_FFF34545">#FFF34545</color>
+    <color name="color_FFFFFFFF">#FFFFFFFF</color>
+    <color name="color_FF6D6D6D">#FF6D6D6D</color>
+    <color name="green_3">#FF3DA6A2</color>
+
+    <color name="color_FF111111">#FF111111</color>
+    <color name="color_FF1E1E1E">#FF1E1E1E</color>
+    <color name="color_FF333333">#FF333333</color>
+
+    <color name="color_999999">#999999</color>
+    <color name="color_333333">#333333</color>
+    <color name="color_666666">#666666</color>
+</resources>

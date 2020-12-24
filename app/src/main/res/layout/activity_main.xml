@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="viewModel"
+            type="com.hongy.adbclient.ui.activity.viewModel.MainViewModel" />
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:background="@color/colorBlack"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/ll_bt"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/bt_cat"
+                android:layout_weight="1"
+                android:text="查看配置文件"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <Button
+                android:text="执行"
+                android:layout_weight="1"
+                android:onClick="@{viewModel.exec}"
+                android:id="@+id/bt_shell"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+
+        <EditText
+            android:layout_above="@id/ll_bt"
+            android:layout_marginTop="20dp"
+            android:hint="输入shell指令"
+            android:text="@={viewModel.command}"
+            android:background="@drawable/edittext_back_shape"
+            android:id="@+id/et_input"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+        <ScrollView
+            android:id="@+id/sv"
+            android:layout_above="@id/et_input"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView android:id="@+id/log"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="25dp"
+                    android:textSize="12sp"
+                    android:text="@={viewModel.log}"
+                    android:padding="4dp"
+                    android:textColor="@color/colorWhite" />
+            </LinearLayout>
+        </ScrollView>
+
+
+    </RelativeLayout>
+</layout>
