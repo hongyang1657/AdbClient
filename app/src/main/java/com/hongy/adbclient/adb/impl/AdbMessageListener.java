@@ -14,4 +14,5 @@ public interface AdbMessageListener {
     AdbDataPackage generateData();
     void executeCommandClose(int adbModel);
     void getFileData(ByteBuffer byteBuffer, int capacity);
+    String onCommandRecv(String recv);
 }

@@ -71,6 +71,7 @@ public class AdbSocket {
 
     private int bigFileOff = 0;
     private int flag = 0;
+    private String commandRec = "";
     public void handleMessage(AdbMessage message) {
         listener.onMessage(message,adbModel);
         switch (message.getCommand()) {
@@ -115,17 +116,23 @@ public class AdbSocket {
                 }else if (adbModel==AdbMessage.ADB_PULL){
                     //处理拉取的数据流
                     receiveData(message);
+                }else if (adbModel==AdbMessage.ADB_SHELL){
+                    //拼接数据
+                    commandRec = commandRec + message.getDataString();
                 }
                 sendReady();
                 break;
             case AdbMessage.A_CLSE:
-                // sendCommand(AdbMessage.A_CLSE);
+                sendCommand(AdbMessage.A_CLSE);
                 flag = 0;
                 if (adbModel==AdbMessage.ADB_PULL){
                     //pull成功后 返回数据
-                    //listener.getFileData(mDataBuffer,MainApplication.capacity);
+                    listener.getFileData(mDataBuffer,MainApplication.capacity);
+                }else if (adbModel==AdbMessage.ADB_SHELL){
+                    listener.onCommandRecv(commandRec);
+                    commandRec = "";
                 }else {
-                    //adb push,stat,shell 结束一个指令后的回调
+                    //adb push,stat 结束一个指令后的回调
                     listener.executeCommandClose(adbModel);
                 }
                 break;
