@@ -48,4 +48,5 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
 
     implementation 'com.github.goldze:MVVMHabit:3.1.6'
+    implementation 'com.github.yoyoyaobin:PreventKeyboardBlockUtil:1.0.8'
 }

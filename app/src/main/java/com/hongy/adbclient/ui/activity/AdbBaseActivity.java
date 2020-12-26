@@ -13,6 +13,7 @@ import com.hongy.adbclient.ui.activity.viewModel.AdbBaseViewModel;
 import com.hongy.adbclient.utils.L;
 import com.hongy.adbclient.utils.StatusBarUtil;
 import com.hongy.adbclient.utils.ToastUtil;
+import com.hyb.library.PreventKeyboardBlockUtil;
 
 import java.nio.ByteBuffer;
 
@@ -29,6 +30,7 @@ public class AdbBaseActivity<V extends ViewDataBinding,VM extends BaseViewModel>
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         return 0;
     }
+
 
     @Override
     protected void onDestroy() {

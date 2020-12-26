@@ -94,7 +94,7 @@ public class UsbPermissionModel{
                         }
                     }
                     else {
-                        Toast.makeText(context, String.valueOf("Permission denied for device" + usbDevice), Toast.LENGTH_LONG).show();
+                        //Toast.makeText(context, String.valueOf("Permission denied for device" + usbDevice), Toast.LENGTH_LONG).show();
                     }
                 }
             }
