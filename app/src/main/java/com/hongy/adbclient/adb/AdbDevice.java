@@ -15,7 +15,6 @@
  */
 
 package com.hongy.adbclient.adb;
-
 import android.hardware.usb.UsbConstants;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbEndpoint;
@@ -23,16 +22,13 @@ import android.hardware.usb.UsbInterface;
 import android.hardware.usb.UsbRequest;
 import android.util.SparseArray;
 
+import com.hongy.adbclient.adb.impl.AdbCommandCloseListener;
+import com.hongy.adbclient.adb.impl.AdbDeviceStatusListener;
 import com.hongy.adbclient.adb.impl.AdbMessageListener;
-import com.hongy.adbclient.utils.Base64Utils;
-import com.hongy.adbclient.utils.BytesUtil;
+import com.hongy.adbclient.adb.impl.AdbPullListener;
+import com.hongy.adbclient.adb.impl.AdbPushListener;
 import com.hongy.adbclient.utils.L;
 
-import java.io.File;
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 import java.util.LinkedList;
 
 
@@ -44,7 +40,6 @@ public class AdbDevice {
     private final UsbEndpoint mEndpointIn;
 
     private String mSerial;
-    private boolean sentSignature = false;
 
     // pool of requests for the OUT endpoint
     private final LinkedList<UsbRequest> mOutRequestPool = new LinkedList<UsbRequest>();
@@ -55,16 +50,23 @@ public class AdbDevice {
     private int mNextSocketId = 1;
 
     private final WaiterThread mWaiterThread = new WaiterThread();
-    private AdbMessageListener listener;
-    private AdbCrypto adbCrypto;
+    private AdbDeviceStatusListener adbDeviceStatusListener;
+    private AdbMessageListener adbMessageListener;
+    private AdbPullListener adbPullListener;
+    private AdbPushListener adbPushListener;
+    private AdbCommandCloseListener adbCommandCloseListener;
 
-
-    public AdbDevice(UsbDeviceConnection connection, UsbInterface intf, AdbMessageListener listener) {
+    public AdbDevice(UsbDeviceConnection connection, UsbInterface intf, AdbDeviceStatusListener listener,
+                     AdbMessageListener adbMessageListener, AdbPullListener adbPullListener
+            , AdbPushListener adbPushListener, AdbCommandCloseListener adbCommandCloseListener) {
         mDeviceConnection = connection;
-        this.listener = listener;
+        this.adbDeviceStatusListener = listener;
+        this.adbMessageListener = adbMessageListener;
+        this.adbPullListener = adbPullListener;
+        this.adbPushListener = adbPushListener;
+        this.adbCommandCloseListener = adbCommandCloseListener;
         mSerial = connection.getSerial();
         L.i("mSerial = "+mSerial);
-
         UsbEndpoint epOut = null;
         UsbEndpoint epIn = null;
         // look for our bulk endpoints
@@ -84,21 +86,7 @@ public class AdbDevice {
         mEndpointOut = epOut;
         mEndpointIn = epIn;
 
-
-        //adbCrypto = AdbCrypto.loadAdbKeyPair(adbBase64);
-        try {
-            adbCrypto = AdbCrypto.generateAdbKeyPair(adbBase64);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
     }
-
-    AdbBase64 adbBase64 = new AdbBase64() {
-        @Override
-        public String encodeToString(byte[] data) {
-            return String.valueOf(Base64Utils.encode(data));
-        }
-    };
 
     // return device serial number
     public String getSerial() {
@@ -143,12 +131,42 @@ public class AdbDevice {
         connect();
     }
 
+
     public AdbSocket openSocket(String destination,int adbModel) {
+        return openSocket(destination,adbModel,null,null,null,null);
+    }
+
+    public AdbSocket openSocket(String destination,int adbModel,AdbMessageListener adbMessageListenerNew,AdbCommandCloseListener adbCommandCloseListenerNew) {
+        return openSocket(destination,adbModel,adbMessageListenerNew,null,null,adbCommandCloseListenerNew);
+    }
+
+    public AdbSocket openSocket(String destination,int adbModel,AdbPullListener adbPullListenerNew) {
+        return openSocket(destination,adbModel,null,adbPullListenerNew,null,null);
+    }
+
+    public AdbSocket openSocket(String destination,int adbModel,AdbPushListener adbPushListenerNew, AdbCommandCloseListener adbCommandCloseListenerNew) {
+        return openSocket(destination,adbModel,null,null,adbPushListenerNew,adbCommandCloseListenerNew);
+    }
+
+    public AdbSocket openSocket(String destination,int adbModel,AdbMessageListener adbMessageListenerNew, AdbPullListener adbPullListenerNew
+            ,AdbPushListener adbPushListenerNew, AdbCommandCloseListener adbCommandCloseListenerNew) {
+        if (null!=adbMessageListenerNew){
+            adbMessageListener = adbMessageListenerNew;
+        }
+        if (null!=adbPullListenerNew){
+            adbPullListener = adbPullListenerNew;
+        }
+        if (null!=adbPushListenerNew){
+            adbPushListener = adbPushListenerNew;
+        }
+        if (null!=adbCommandCloseListenerNew){
+            adbCommandCloseListener = adbCommandCloseListenerNew;
+        }
         AdbSocket socket;
         synchronized (mSockets) {
             int id = mNextSocketId++;
             L.i("openSocket id 当前的adb 指令id = "+id);
-            socket = new AdbSocket(this, id,listener);
+            socket = new AdbSocket(this, id,adbMessageListener,adbPullListener,adbPushListener,adbCommandCloseListener);
             mSockets.put(id, socket);
         }
         if (socket.open(destination,adbModel)) {
@@ -168,6 +186,8 @@ public class AdbDevice {
     public void socketClosed(AdbSocket socket) {
         synchronized (mSockets) {
             mSockets.remove(socket.getId());
+            L.i("mSocekts remove:"+socket.getId());
+            L.i("msockets:"+mSockets.size());
         }
     }
 
@@ -181,30 +201,10 @@ public class AdbDevice {
     // handle connect response
     private void handleConnect(AdbMessage message) {
         L.i("handleConnect message = "+message.getDataString());
-        //if (message.getDataString().startsWith("host:")) {
+        //L.i(""+ Arrays.toString(message.getData().array()));
+        if (message.getDataString().startsWith("host:")) {
         L.i("connected");
-            listener.deviceOnline(this);
-        //}
-    }
-
-    //handle auth response
-    private void handleAuth(AdbMessage msg){
-        if (msg.getArg0()==AdbMessage.AUTH_TYPE_TOKEN){
-            AdbMessage message = new AdbMessage();
-            try {
-                if (sentSignature){
-                    message.set(AdbMessage.A_AUTH, AdbMessage.AUTH_TYPE_RSA_PUBLIC, 0, adbCrypto.getAdbPublicKeyPayload());
-                    L.i("");
-                }else {
-                    message.set(AdbMessage.A_AUTH, AdbMessage.AUTH_TYPE_SIGNATURE, 0, AdbCrypto.signAdbTokenPayload(BytesUtil.subByte(msg.getData().array(),0,msg.getDataLength())));
-                    sentSignature = true;
-                }
-                message.write(this);
-            } catch (GeneralSecurityException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            adbDeviceStatusListener.deviceOnline(this);
         }
     }
 
@@ -222,8 +222,8 @@ public class AdbDevice {
             case AdbMessage.A_SYNC:
                 break;
             case AdbMessage.A_AUTH:
-                handleAuth(message);
-                break;
+                //handleAuth(message);
+                //break;
             case AdbMessage.A_CNXN:
                 handleConnect(message);
                 break;
@@ -236,7 +236,6 @@ public class AdbDevice {
                     L.i("ERROR socket not found");
                 } else {
                     socket.handleMessage(message);
-                    L.i("AdbDevice arg0:"+message.getArg0()+" arg1"+message.getArg1() +" command:"+getCommand(message.getCommand()));
                 }
                 break;
         }

@@ -49,4 +49,10 @@ dependencies {
 
     implementation 'com.github.goldze:MVVMHabit:3.1.6'
     implementation 'com.github.yoyoyaobin:PreventKeyboardBlockUtil:1.0.8'
+
+    implementation 'com.github.xuexiangjys:XUI:1.1.5'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
 }

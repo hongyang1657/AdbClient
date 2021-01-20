@@ -51,13 +51,6 @@ public class AdbMessage {
 
     public static final int MAX_PAYLOAD = 1024 * 8;
 
-    //adb状态
-    public static final int ADB_PULL = 2000;
-    public static final int ADB_PUSH = 2001;
-    public static final int ADB_STAT = 2002;
-    public static final int ADB_SHELL = 2003;
-    public static final int ADB_AWAIT = 2004;
-
     private final ByteBuffer mMessageBuffer;
     private final ByteBuffer mDataBuffer;
 
@@ -96,6 +89,7 @@ public class AdbMessage {
                 //L.i("ADB流程 发送的指令：A_SYNC arg0:"+arg0+" arg1:"+arg1+" datalength:"+(data == null ? 0 : data.length));
                 break;
         }
+
         if (data != null) {
             //L.i("发送的data："+ Arrays.toString(data));
             mDataBuffer.put(data, 0, data.length);

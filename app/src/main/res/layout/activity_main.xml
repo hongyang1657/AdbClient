@@ -55,6 +55,7 @@
 
         <ScrollView
             android:id="@+id/sv"
+            android:layout_marginTop="30dp"
             android:layout_above="@id/et_input"
             bind:scrollDown="@{viewModel.log}"
             android:layout_width="match_parent"
@@ -69,6 +70,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="25dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     android:textSize="12sp"
                     android:text="@={viewModel.log}"
                     android:padding="4dp"

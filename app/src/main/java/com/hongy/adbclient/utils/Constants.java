@@ -14,6 +14,14 @@ public class Constants {
     public static final int PROTOCOL_RELAY = 1001;
     public static final int PROTOCOL_OPTICAL = 1002;
     public static final int PROTOCOL_SAMSUNG = 1003;
+    public static final int PROTOCOL_KUKA = 1004;
+
+    //adb状态
+    public static final int ADB_PULL = 2000;
+    public static final int ADB_PUSH = 2001;
+    public static final int ADB_STAT = 2002;
+    public static final int ADB_SHELL = 2003;
+    public static final int ADB_AWAIT = 2004;
 
     //push 模式
     public static final String PUSH_MODE = "pushMode";
@@ -21,12 +29,17 @@ public class Constants {
     public static final int MODE_ADVERTISING = 3002;
 
     //Kuka
-    public static final String KUKA_ROOT_PATH = "/fitme/kuka/";
+    public static final String ROOT_PATH = "/fitme/";
+    public static final String UPLOAD_ROOT_PATH = "/fitme/upload/";
     public static final String MODEL_ROOT_PATH = "/fitme/model/";
+    public static final String ADVERTISMENT_PATH = "/fitme/ad/";
     public static final String TARGET_RECORD_PATH = "/data/found/record/";
+    public static final String DEVICE_INFO_FILE = "deviceInfo.json";
 
     //pull文件存放路径
     public static final String PULL_PATH = "/fitme/pull/";
+
+    public static final String WELCOME_TTS = "welcome.wav";
 
     //登记楼层应答
     public static final String[] REGISTER_ANSWER_LIST = {"","intent/已登记.wav","<登记楼层>"};
@@ -39,6 +52,8 @@ public class Constants {
 
     public static final String TARGET_PATH_SERIAL_CONFIG = "/data/found/model/serial_IO_config.json";
 
+    public static final String TARGET_PATH_VERSION = "/data/found/data/version";
+
     public static final String TARGET_PATH_GREET_TTS = "/data/found/data/tts/intent/welcome.wav";      //自定义迎宾问候词路径
 
     public static final String TARGET_PATH_ADVERTISEMENT = "/data/found/advertisement/advertisement.json";    //广告词配置文件
@@ -47,7 +62,6 @@ public class Constants {
 
 
     public static final String modelZip = "model.zip";
-    //public static final String test_path = "/usr/bin/senseflow";
 
     //语音模组/data/found/model/目录
     //public static final String TARGET_PATH_MODEL = "/data/found/model/";
@@ -88,7 +102,7 @@ public class Constants {
 
     //下载
     //public final static String upgrade_url = "http://172.16.11.64:8081/project/manual/download?filePath=X:\\2hzy\\model\\model\\";
-    public final static String upgrade_url = "http://open.fitme.ai:8081/project/manual/download?filePath=/OTA/elevator/";   //生产
+    public final static String upgrade_url = "http://open.fitme.ai:8081/project/manual/download?filePath=/OTA/";   //生产
     //public final static String upgrade_url = "http://172.16.11.64:8081/project/manual/download?filePath=/OTA/v1.0/";
 
     //上传
@@ -97,6 +111,12 @@ public class Constants {
 
     public final static String ota_config = "ota_config.json";
     public static final String CUSTOM_GREET = "custom_greet";
+
+    public final static String DB_NAME = "fd_database.db";
+
+    public final static String REGISTER_ANSWER_1 = "sqlite3 /data/found/model/fd_database.db 'update answer set urls=\"\" where id = 1'";
+    public final static String REGISTER_ANSWER_2 = "sqlite3 /data/found/model/fd_database.db 'update answer set urls=\"intent/已登记.wav\" where id = 1'";
+    public final static String REGISTER_ANSWER_3 = "sqlite3 /data/found/model/fd_database.db 'update answer set urls=\"<登记楼层>\" where id = 1'";
 
     public static String getFileContent(Context context,String assetsFileName){
         InputStream is = null;

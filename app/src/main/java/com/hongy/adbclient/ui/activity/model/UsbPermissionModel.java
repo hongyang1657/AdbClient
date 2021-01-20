@@ -9,9 +9,13 @@ import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbInterface;
 import android.hardware.usb.UsbManager;
-import android.widget.Toast;
+
 import com.hongy.adbclient.adb.AdbDevice;
+import com.hongy.adbclient.adb.impl.AdbCommandCloseListener;
+import com.hongy.adbclient.adb.impl.AdbDeviceStatusListener;
 import com.hongy.adbclient.adb.impl.AdbMessageListener;
+import com.hongy.adbclient.adb.impl.AdbPullListener;
+import com.hongy.adbclient.adb.impl.AdbPushListener;
 import com.hongy.adbclient.broadcast.UsbReceiver;
 import com.hongy.adbclient.utils.L;
 
@@ -25,12 +29,21 @@ public class UsbPermissionModel{
     public UsbInterface mInterface;
     public AdbDevice mAdbDevice;
     private Context context;
-    private AdbMessageListener listener;
+    private AdbMessageListener adbMessageListener;
+    private AdbPushListener adbPushListener;
+    private AdbPullListener adbPullListener;
+    private AdbCommandCloseListener adbCommandCloseListener;
+    private AdbDeviceStatusListener adbDeviceStatusListener;
     private UsbReceiver usbReceiver;
 
-    public UsbPermissionModel(Context context, AdbMessageListener listener) {
+    public UsbPermissionModel(Context context, AdbMessageListener adbMessageListener, AdbPushListener adbPushListener,
+                              AdbPullListener adbPullListener, AdbCommandCloseListener adbCommandCloseListener, AdbDeviceStatusListener adbDeviceStatusListener) {
         this.context = context;
-        this.listener = listener;
+        this.adbMessageListener = adbMessageListener;
+        this.adbPushListener = adbPushListener;
+        this.adbPullListener = adbPullListener;
+        this.adbCommandCloseListener = adbCommandCloseListener;
+        this.adbDeviceStatusListener = adbDeviceStatusListener;
     }
 
     public void release(){
@@ -134,7 +147,7 @@ public class UsbPermissionModel{
                     mDevice = device;
                     mDeviceConnection = connection;
                     mInterface = intf;
-                    mAdbDevice = new AdbDevice(mDeviceConnection, intf,listener);
+                    mAdbDevice = new AdbDevice(mDeviceConnection, intf,adbDeviceStatusListener,adbMessageListener,adbPullListener,adbPushListener,adbCommandCloseListener);
                     L.i("call start");
                     mAdbDevice.start();
                     return true;

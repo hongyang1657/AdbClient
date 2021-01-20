@@ -1,5 +1,8 @@
-package com.hongy.adbclient;
+package com.hongy.adbclient.app;
+import com.hongy.adbclient.R;
 import com.hongy.adbclient.ui.activity.MainActivity;
+import com.xuexiang.xui.XUI;
+
 import me.goldze.mvvmhabit.base.BaseApplication;
 import me.goldze.mvvmhabit.crash.CaocConfig;
 import me.goldze.mvvmhabit.utils.KLog;
@@ -26,6 +29,8 @@ public class MainApplication extends BaseApplication {
                 //.errorActivity(YourCustomErrorActivity.class) //崩溃后的错误activity
                 //.eventListener(new YourCustomEventListener()) //崩溃后的错误监听
                 .apply();
+        XUI.init(this);
+        XUI.debug(true);
     }
 
     public static MainApplication getApp() {

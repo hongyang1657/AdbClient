@@ -11,7 +11,7 @@ import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
-import com.hongy.adbclient.MainApplication;
+import com.hongy.adbclient.app.MainApplication;
 
 
 /**

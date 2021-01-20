@@ -1,16 +1,16 @@
 package com.hongy.adbclient.ui.activity;
 
 import android.os.Bundle;
-import androidx.lifecycle.ViewModelProviders;
 import com.hongy.adbclient.BR;
 import com.hongy.adbclient.R;
 import com.hongy.adbclient.adb.AdbDevice;
+import com.hongy.adbclient.adb.impl.AdbDeviceStatusListener;
 import com.hongy.adbclient.databinding.ActivityMainBinding;
 import com.hongy.adbclient.ui.activity.viewModel.MainViewModel;
 import com.hyb.library.PreventKeyboardBlockUtil;
 
 
-public class MainActivity extends AdbBaseActivity<ActivityMainBinding, MainViewModel> {
+public class MainActivity extends AdbBaseActivity<ActivityMainBinding, MainViewModel> implements AdbDeviceStatusListener {
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -38,11 +38,12 @@ public class MainActivity extends AdbBaseActivity<ActivityMainBinding, MainViewM
     @Override
     public void initData() {
         super.initData();
+        //TEST
+
     }
 
     @Override
     public void deviceOnline(AdbDevice device) {
-        super.deviceOnline(device);
         viewModel.getAdbDevice(device);
     }
 
@@ -58,9 +59,4 @@ public class MainActivity extends AdbBaseActivity<ActivityMainBinding, MainViewM
         viewModel.onDetached();
     }
 
-    @Override
-    public String onCommandRecv(String recv) {
-        viewModel.onCommandRecv(super.onCommandRecv(recv));
-        return "";
-    }
 }
