@@ -17,11 +17,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.hongy.adbclient.R;
 import com.hongy.adbclient.adb.AdbDevice;
-import com.hongy.adbclient.bean.EventAdbDevice;
+import com.hongy.adbclient.app.MainApplication;
 import com.hongy.adbclient.ui.fragment.FunctionFragment;
 import com.hongy.adbclient.ui.fragment.TerminalFragment;
 import com.hongy.adbclient.utils.L;
-import com.hongy.adbclient.utils.RxBus;
 
 public class MainActivity extends AdbBaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -45,7 +44,6 @@ public class MainActivity extends AdbBaseActivity implements BottomNavigationVie
     protected int initLayout() {
         return R.layout.activity_main;
     }
-
 
     protected void initView() {
         drawerLayout = findViewById(R.id.draw);
@@ -71,7 +69,6 @@ public class MainActivity extends AdbBaseActivity implements BottomNavigationVie
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                // Open the navigation drawer when the home icon is selected from the toolbar.
                 drawerLayout.openDrawer(Gravity.START);
                 return true;
 
@@ -155,7 +152,7 @@ public class MainActivity extends AdbBaseActivity implements BottomNavigationVie
     public void deviceOnline(AdbDevice device) {
         super.deviceOnline(device);
         L.i("deviceOnline:"+device.getSerial());
-        RxBus.getDefault().post(new EventAdbDevice(device));
+        MainApplication.adbDevice = device;
     }
 
     @Override
@@ -166,12 +163,10 @@ public class MainActivity extends AdbBaseActivity implements BottomNavigationVie
     @Override
     protected void onResume() {
         super.onResume();
-        //PreventKeyboardBlockUtil.getInstance(this).setBtnView(findViewById(R.id.bnv_bottom_nav)).register();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        //PreventKeyboardBlockUtil.getInstance(this).unRegister();
     }
 }

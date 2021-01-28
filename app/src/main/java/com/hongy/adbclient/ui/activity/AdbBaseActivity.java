@@ -67,6 +67,11 @@ public class AdbBaseActivity extends BaseActivity implements
     }
 
     @Override
+    public void onCommandRec(String commandRec, int sockerId) {
+
+    }
+
+    @Override
     public String getPullFileName(int socketId) {
         return null;
     }

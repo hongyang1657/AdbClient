@@ -10,11 +10,6 @@ import java.io.InputStream;
 
 public class Constants {
 
-    //梯控版本
-    public static final int PROTOCOL_RELAY = 1001;
-    public static final int PROTOCOL_OPTICAL = 1002;
-    public static final int PROTOCOL_SAMSUNG = 1003;
-    public static final int PROTOCOL_KUKA = 1004;
 
     //adb状态
     public static final int ADB_PULL = 2000;
@@ -23,100 +18,10 @@ public class Constants {
     public static final int ADB_SHELL = 2003;
     public static final int ADB_AWAIT = 2004;
 
-    //push 模式
-    public static final String PUSH_MODE = "pushMode";
-    public static final int MODE_MAIN = 3001;
-    public static final int MODE_ADVERTISING = 3002;
+    public static final String SHELL = "shell:exec ";
 
-    //Kuka
-    public static final String ROOT_PATH = "/fitme/";
-    public static final String UPLOAD_ROOT_PATH = "/fitme/upload/";
-    public static final String MODEL_ROOT_PATH = "/fitme/model/";
-    public static final String ADVERTISMENT_PATH = "/fitme/ad/";
-    public static final String TARGET_RECORD_PATH = "/data/found/record/";
-    public static final String DEVICE_INFO_FILE = "deviceInfo.json";
-
-    //pull文件存放路径
-    public static final String PULL_PATH = "/fitme/pull/";
-
-    public static final String WELCOME_TTS = "welcome.wav";
-
-    //登记楼层应答
-    public static final String[] REGISTER_ANSWER_LIST = {"","intent/已登记.wav","<登记楼层>"};
-
-    public static final String TARGET_PATH_CONFIG_CONF = "/data/found/data/config.conf";
-
-    public static final String TARGET_PATH_TTS_CONFIG = "/data/found/data/tts/ttsConfig.json";
-
-    public static final String TARGET_PATH_MODEL_CONFIG = "/data/found/model/model_config.json";
-
-    public static final String TARGET_PATH_SERIAL_CONFIG = "/data/found/model/serial_IO_config.json";
-
-    public static final String TARGET_PATH_VERSION = "/data/found/data/version";
-
-    public static final String TARGET_PATH_GREET_TTS = "/data/found/data/tts/intent/welcome.wav";      //自定义迎宾问候词路径
-
-    public static final String TARGET_PATH_ADVERTISEMENT = "/data/found/advertisement/advertisement.json";    //广告词配置文件
-
-    public static final String TARGET_PATH_ADVER = "/data/found/advertisement/";
-
-
-    public static final String modelZip = "model.zip";
-
-    //语音模组/data/found/model/目录
-    //public static final String TARGET_PATH_MODEL = "/data/found/model/";
-    //adb 协议中文件权限
     public static final String ADB_PROTOCOL_AUTHORITY = ",0755";
-    
 
-    public static final String WAKEUP_SOUND_DEFAULT = "9";
-    public static final String WAKEUP_SOUND_1 = "0";
-    public static final String WAKEUP_SOUND_2 = "1";
-    public static final String WAKEUP_SOUND_3 = "2";
-    public static final String WAKEUP_SOUND_4 = "3";
-
-    public static final String DEFAULT_OPEN_DOOR_INDEX = "31";
-    public static final String DEFAULT_CLOSE_DOOR_INDEX = "32";
-
-    public static final String CANCEL_TWICE = "02";
-    public static final String CANCEL_THRICE = "03";
-    public static final String CANCEL_LONGPRESS = "01";
-
-    //开关门信号引脚
-    public static final String opendoor_pin_1 = "67";
-    public static final String opendoor_pin_2 = "66";
-    //开关门信号电平
-    public static final String  opendoor_val_h = "1";
-    public static final String  opendoor_val_l = "0";
-    //回应聊天答疑
-    public static final float CLOSE_ANSWER_QUESTION = 1.1f;
-    public static final float OPEN_ANSWER_QUESTION = 0f;
-
-    public static final String[] floorItems = new String[]{"-9楼","-8楼","-7楼","-6楼","-5楼","-4楼","-3楼",
-            "-2楼", "-1楼","1楼","2楼","3楼","4楼","5楼","6楼","7楼","8楼","9楼","10楼","11楼","12楼",
-            "13楼","14楼","15楼","16楼","17楼","18楼","19楼","20楼","21楼","22楼","23楼","24楼","25楼",
-            "26楼","27楼","28楼","29楼","30楼","31楼","32楼","33楼","34楼","35楼","36楼","37楼","38楼","39楼","40楼"
-            ,"41楼","42楼","43楼","44楼","45楼","46楼","47楼","48楼","49楼","50楼","51楼","52楼","53楼","54楼"
-            ,"55楼","56楼","57楼","58楼","59楼","60楼","61楼","62楼","63楼","64楼"};
-
-
-    //下载
-    //public final static String upgrade_url = "http://172.16.11.64:8081/project/manual/download?filePath=X:\\2hzy\\model\\model\\";
-    public final static String upgrade_url = "http://open.fitme.ai:8081/project/manual/download?filePath=/OTA/";   //生产
-    //public final static String upgrade_url = "http://172.16.11.64:8081/project/manual/download?filePath=/OTA/v1.0/";
-
-    //上传
-    //public final static String upload_url = "http://172.16.11.64:8081/app/file/upload";
-    public final static String upload_url = "http://open.fitme.ai:8081/app/file/upload";
-
-    public final static String ota_config = "ota_config.json";
-    public static final String CUSTOM_GREET = "custom_greet";
-
-    public final static String DB_NAME = "fd_database.db";
-
-    public final static String REGISTER_ANSWER_1 = "sqlite3 /data/found/model/fd_database.db 'update answer set urls=\"\" where id = 1'";
-    public final static String REGISTER_ANSWER_2 = "sqlite3 /data/found/model/fd_database.db 'update answer set urls=\"intent/已登记.wav\" where id = 1'";
-    public final static String REGISTER_ANSWER_3 = "sqlite3 /data/found/model/fd_database.db 'update answer set urls=\"<登记楼层>\" where id = 1'";
 
     public static String getFileContent(Context context,String assetsFileName){
         InputStream is = null;

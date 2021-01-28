@@ -82,6 +82,7 @@ public class AdbSocket {
     private int bigFileOff = 0;
     private int flag = 0;
     private String filePath = null;
+    private String commandRec = "";
     public void handleMessage(AdbMessage message) {
         if (null!=adbMessageListener){
             adbMessageListener.onMessage(message,adbModel);
@@ -128,6 +129,8 @@ public class AdbSocket {
                 }else if (adbModel==Constants.ADB_PULL){
                     //处理拉取的数据流
                     receiveData(message);
+                }else if (adbModel==Constants.ADB_SHELL){
+                    commandRec = commandRec + message.getDataString();
                 }
                 sendReady();
                 break;
@@ -137,8 +140,12 @@ public class AdbSocket {
                 if (adbModel==Constants.ADB_PULL){
                     //pull成功后 返回数据
                     adbPullListener.getFileData(mDataBuffer,capacity,message.getArg1());
-                }else {
-                    //adb push,stat,shell 结束一个指令后的回调
+                }else if (adbModel==Constants.ADB_SHELL){
+                    adbCommandCloseListener.onCommandRec(commandRec,message.getArg1());
+                    commandRec = "";
+                }
+                else {
+                    //adb push,stat 结束一个指令后的回调
                     if (null!=adbCommandCloseListener){
                         adbCommandCloseListener.onCommandClose(adbModel,message.getArg1());
                     }

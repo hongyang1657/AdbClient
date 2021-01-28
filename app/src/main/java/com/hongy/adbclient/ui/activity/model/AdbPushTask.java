@@ -61,6 +61,11 @@ public class AdbPushTask{
                 }.start();
             }
         }
+
+        @Override
+        public void onCommandRec(String commandRec, int sockerId) {
+
+        }
     };
 
     public interface AdbPushListener{

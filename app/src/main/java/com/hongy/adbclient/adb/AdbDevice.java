@@ -27,13 +27,21 @@ import com.hongy.adbclient.adb.impl.AdbDeviceStatusListener;
 import com.hongy.adbclient.adb.impl.AdbMessageListener;
 import com.hongy.adbclient.adb.impl.AdbPullListener;
 import com.hongy.adbclient.adb.impl.AdbPushListener;
+import com.hongy.adbclient.utils.Base64Utils;
+import com.hongy.adbclient.utils.BytesUtil;
 import com.hongy.adbclient.utils.L;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.security.NoSuchAlgorithmException;
 import java.util.LinkedList;
 
 
 /* This class represents a USB device that supports the adb protocol. */
 public class AdbDevice {
+
+    private boolean sentSinature = false;
+    private AdbCrypto adbCrypto;
 
     private final UsbDeviceConnection mDeviceConnection;
     private final UsbEndpoint mEndpointOut;
@@ -86,7 +94,19 @@ public class AdbDevice {
         mEndpointOut = epOut;
         mEndpointIn = epIn;
 
+        try {
+            adbCrypto = AdbCrypto.generateAdbKeyPair(adbBase64);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
     }
+
+    AdbBase64 adbBase64 = new AdbBase64() {
+        @Override
+        public String encodeToString(byte[] data) {
+            return String.valueOf(Base64Utils.encode(data));
+        }
+    };
 
     // return device serial number
     public String getSerial() {
@@ -208,6 +228,24 @@ public class AdbDevice {
         }
     }
 
+    //handle auth response
+    private void handleAuth(AdbMessage msg){
+        if (msg.getArg0()==AdbMessage.AUTH_TYPE_TOKEN){
+            AdbMessage message = new AdbMessage();
+            try {
+                if (sentSinature){
+                    message.set(AdbMessage.A_AUTH,AdbMessage.AUTH_TYPE_RSA_PUBLIC,0,adbCrypto.getAdbPublicKeyPayload());
+                }else {
+                    message.set(AdbMessage.A_AUTH,AdbMessage.AUTH_TYPE_SIGNATURE,0,AdbCrypto.signAdbTokenPayload(BytesUtil.subByte(msg.getData().array(),0,msg.getDataLength())));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (GeneralSecurityException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public void stop() {
         synchronized (mWaiterThread) {
             mWaiterThread.mStop = true;
@@ -222,8 +260,8 @@ public class AdbDevice {
             case AdbMessage.A_SYNC:
                 break;
             case AdbMessage.A_AUTH:
-                //handleAuth(message);
-                //break;
+                handleAuth(message);
+                break;
             case AdbMessage.A_CNXN:
                 handleConnect(message);
                 break;
