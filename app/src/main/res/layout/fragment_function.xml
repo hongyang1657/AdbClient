@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:scrollbars="none"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:orientation="vertical">
+
+        <include layout="@layout/layout_card_push" />
+
+        <include layout="@layout/layout_card_pull" />
+
+        <include layout="@layout/layout_card_function_button" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="400dp" />
+    </LinearLayout>
+</ScrollView>
+
+

@@ -1,84 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://schemas.android.com/apk/res-auto">
-    <data>
-        <variable
-            name="viewModel"
-            type="com.hongy.adbclient.ui.activity.viewModel.MainViewModel" />
-        <import type="com.hongy.adbclient.ui.activity.bindingAdapter.ScrollV"/>
-        <variable
-            name="scroll"
-            type="ScrollV" />
-    </data>
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/draw"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:openDrawer="start">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:background="@color/colorBlack"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/ll_bt"
+
+
+        <FrameLayout
+            android:id="@+id/fl_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bnv_bottom_nav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:orientation="horizontal"
-            android:weightSum="2"
+            android:background="@color/colorWhite"
+            app:elevation="16dp"
+            app:itemIconTint="@drawable/selector_tab_color"
+            app:itemTextColor="@drawable/selector_tab_color"
+            app:menu="@menu/menu_bottom_nav" />
+
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <Button
-                android:id="@+id/bt_cat"
-                android:layout_weight="1"
-                android:text="查看配置文件"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <Button
-                android:text="执行"
-                android:layout_weight="1"
-                android:onClick="@{viewModel.exec}"
-                android:id="@+id/bt_shell"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            app:elevation="0dp">
 
-
-        <EditText
-            android:layout_above="@id/ll_bt"
-            android:layout_marginTop="20dp"
-            android:hint="输入shell指令"
-            android:text="@={viewModel.command}"
-            android:background="@drawable/edittext_back_shape"
-            android:id="@+id/et_input"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:padding="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-
-        <ScrollView
-            android:id="@+id/sv"
-            android:layout_marginTop="30dp"
-            android:layout_above="@id/et_input"
-            bind:scrollDown="@{viewModel.log}"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:orientation="vertical"
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/tb_toolbar"
+                app:titleTextColor="@color/colorWhite"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:background="@color/colorGreen"
+                android:layout_height="wrap_content"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:theme="@style/AppTheme" />
+        </com.google.android.material.appbar.AppBarLayout>
 
-                <TextView android:id="@+id/log"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="25dp"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:textSize="12sp"
-                    android:text="@={viewModel.log}"
-                    android:padding="4dp"
-                    android:textColor="@color/colorWhite" />
-            </LinearLayout>
-        </ScrollView>
-
-
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_scroll_to_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="64dp"
+            android:src="@mipmap/setting_n"
+            app:fabSize="mini"
+            app:layout_behavior="@string/app_name" />
     </RelativeLayout>
-</layout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nv_drawer_nav"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/colorWhite"
+        app:headerLayout="@layout/view_nav_header"
+        app:itemIconTint="@color/colorGreen"
+        app:itemTextColor="@color/colorGreen"
+        app:menu="@menu/menu_bottom_nav" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

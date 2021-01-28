@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/tab_function"
+        android:title="@string/function"
+        android:icon="@mipmap/connect_n" />
+
+    <item
+        android:id="@+id/tab_control"
+        android:title="@string/control"
+        android:icon="@mipmap/interface_n" />
+
+    <item
+        android:id="@+id/tab_terminal"
+        android:title="@string/terminal"
+        android:icon="@mipmap/connected_n" />
+
+
+</menu>

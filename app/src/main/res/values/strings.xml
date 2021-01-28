@@ -12,4 +12,11 @@
     <string name="menu_slideshow">Slideshow</string>
 
     <string name="home_second">Home Second</string>
+
+    <string name="function">功能</string>
+    <string name="control">控制</string>
+    <string name="terminal">终端</string>
+
+    <string name="bottom_navigation_behavior">com.github.cyc.wanandroid.behavior.BottomNavigationBehavior</string>
+    <string name="floating_action_button_behavior">com.github.cyc.wanandroid.behavior.FloatingActionButtonBehavior</string>
 </resources>
