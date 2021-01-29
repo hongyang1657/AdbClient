@@ -87,7 +87,13 @@ public class FunctionFragment extends BaseFragment {
                     new AdbPushTask(MainApplication.adbDevice, list, new AdbPushTask.AdbPushListener() {
                         @Override
                         public void onComplete() {
-                            ToastUtil.showToast(getContext(),"文件传输成功！");
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ToastUtil.showToast(getContext(),"文件传输成功！");
+                                }
+                            });
+
                         }
 
                         @Override

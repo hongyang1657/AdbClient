@@ -9,10 +9,8 @@ import android.view.inputmethod.InputMethodManager;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.hongy.adbclient.R;
 import com.hongy.adbclient.utils.ActivityCollector;
 import com.hongy.adbclient.utils.StatusBarUtil;
-import com.hyb.library.PreventKeyboardBlockUtil;
 
 public abstract class BaseActivity extends AppCompatActivity {
 

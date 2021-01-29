@@ -213,6 +213,7 @@ public class AdbDevice {
 
     // send a connect command
     private void connect() {
+        L.i("send a connect command");
         AdbMessage message = new AdbMessage();
         message.set(AdbMessage.A_CNXN, AdbMessage.A_VERSION, AdbMessage.MAX_PAYLOAD, "host::");
         message.write(this);
@@ -222,7 +223,7 @@ public class AdbDevice {
     private void handleConnect(AdbMessage message) {
         L.i("handleConnect message = "+message.getDataString());
         //L.i(""+ Arrays.toString(message.getData().array()));
-        if (message.getDataString().startsWith("host:")) {
+        if (message.getDataString().startsWith("host:") || message.getDataString().startsWith("device:")) {
         L.i("connected");
             adbDeviceStatusListener.deviceOnline(this);
         }
@@ -230,6 +231,7 @@ public class AdbDevice {
 
     //handle auth response
     private void handleAuth(AdbMessage msg){
+        L.i("handleAuth:"+msg.toString());
         if (msg.getArg0()==AdbMessage.AUTH_TYPE_TOKEN){
             AdbMessage message = new AdbMessage();
             try {
@@ -237,7 +239,9 @@ public class AdbDevice {
                     message.set(AdbMessage.A_AUTH,AdbMessage.AUTH_TYPE_RSA_PUBLIC,0,adbCrypto.getAdbPublicKeyPayload());
                 }else {
                     message.set(AdbMessage.A_AUTH,AdbMessage.AUTH_TYPE_SIGNATURE,0,AdbCrypto.signAdbTokenPayload(BytesUtil.subByte(msg.getData().array(),0,msg.getDataLength())));
+                    sentSinature = true;
                 }
+                message.write(this);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (GeneralSecurityException e) {
