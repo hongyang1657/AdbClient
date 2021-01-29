@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hongy.adbclient.R;
 import com.hongy.adbclient.app.MainApplication;
 import com.hongy.adbclient.bean.AdbDataPackage;
-import com.hongy.adbclient.ui.activity.model.AdbPullFilesTask;
 import com.hongy.adbclient.ui.activity.model.AdbPushTask;
 import com.hongy.adbclient.ui.fragment.adapter.FunctionButtonAdapter;
 import com.hongy.adbclient.utils.Constants;
@@ -29,8 +28,8 @@ public class FunctionFragment extends BaseFragment {
 
     private RecyclerView rvFunction;
     private String[] functionList = new String[]{"HOME","返回","音量+","音量-","电源","拍照","菜单键"
-            ,"播放/暂停","停止播放","打开系统设置","点亮屏幕","熄灭屏幕"};
-    private int[] functionKey = new int[]{3,4,24,25,26,27,82,85,86,176,224,223};
+            ,"播放/暂停","停止播放","点亮屏幕","熄灭屏幕","确定","上","下","左","右"};
+    private int[] functionKey = new int[]{3,4,24,25,26,27,82,85,86,224,223,66,19,20,21,22};
     private FunctionButtonAdapter adapter;
     private EditText et_push_local_path;
     private EditText et_push_target_path;
@@ -103,17 +102,20 @@ public class FunctionFragment extends BaseFragment {
                     }).start();
                     break;
                 case R.id.bt_pull:
-                    new AdbPullFilesTask(MainApplication.adbDevice, null, null, null, new AdbPullFilesTask.PullFilesListener() {
-                        @Override
-                        public void onError() {
+//                    new AdbPullFilesTask(MainApplication.adbDevice, null, null, null, new AdbPullFilesTask.PullFilesListener() {
+//                        @Override
+//                        public void onError() {
+//
+//                        }
+//
+//                        @Override
+//                        public void onComplete() {
+//
+//                        }
+//                    }).start();
 
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    }).start();
+                    //TEST
+                    MainApplication.adbDevice.openSocket("shell:exec input keyevent "+ et_pull_local_path.getText().toString(), Constants.ADB_SHELL);
                     break;
                 case R.id.bt_set_file:
                     break;

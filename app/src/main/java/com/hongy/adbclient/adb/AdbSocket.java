@@ -142,6 +142,7 @@ public class AdbSocket {
                     adbPullListener.getFileData(mDataBuffer,capacity,message.getArg1());
                 }else if (adbModel==Constants.ADB_SHELL){
                     adbCommandCloseListener.onCommandRec(commandRec,message.getArg1());
+                    adbCommandCloseListener.onCommandClose(adbModel,message.getArg1());
                     commandRec = "";
                 }
                 else {

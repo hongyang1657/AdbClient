@@ -56,6 +56,11 @@ public class TerminalFragment extends BaseFragment {
                         public void onFullStringMessage(String message) {
                             appendLog(message+"\n# ");
                         }
+
+                        @Override
+                        public void onCommandClose(int socketId) {
+
+                        }
                     }).start(et_input.getText().toString());
                 }
             }

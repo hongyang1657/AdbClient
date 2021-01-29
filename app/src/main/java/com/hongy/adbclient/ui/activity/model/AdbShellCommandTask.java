@@ -24,13 +24,14 @@ public class AdbShellCommandTask {
     AdbMessageListener adbMessageListener = new AdbMessageListener() {
         @Override
         public void onMessage(AdbMessage message, int adbModel) {
+
         }
     };
 
     AdbCommandCloseListener adbCommandCloseListener = new AdbCommandCloseListener() {
         @Override
         public void onCommandClose(int adbModel, int socketId) {
-
+            listener.onCommandClose(socketId);
         }
 
         @Override
@@ -44,5 +45,6 @@ public class AdbShellCommandTask {
 
     public interface AdbShellCommandListener {
         void onFullStringMessage(String message);
+        void onCommandClose(int socketId);
     }
 }

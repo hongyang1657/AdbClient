@@ -31,6 +31,14 @@ public class AdbPullFilesTask {
         this.listener = listener;
     }
 
+    public AdbPullFilesTask(AdbDevice adbDevice, List<String> targetFileNames, PullFilesListener listener) {
+        this.adbDevice = adbDevice;
+        this.fileRemoteRootPath = "/sdcard/";
+        this.fileLocalRootPath = "/";
+        this.targetFileNames = targetFileNames;
+        this.listener = listener;
+    }
+
     public void start(){
         if (null==adbDevice || targetFileNames.size()==0){
             listener.onError();

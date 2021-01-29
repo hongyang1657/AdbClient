@@ -23,6 +23,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:descendantFocusability="blocksDescendants"
+
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -30,6 +31,8 @@
                 android:id="@+id/tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="12dp"
                 android:paddingTop="6dp"
                 android:paddingStart="10dp"
                 android:paddingBottom="10dp"

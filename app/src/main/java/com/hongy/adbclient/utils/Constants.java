@@ -22,6 +22,7 @@ public class Constants {
 
     public static final String ADB_PROTOCOL_AUTHORITY = ",0755";
 
+    public static final String PIC = "adb.png";
 
     public static String getFileContent(Context context,String assetsFileName){
         InputStream is = null;

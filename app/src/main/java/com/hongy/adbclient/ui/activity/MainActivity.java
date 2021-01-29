@@ -18,6 +18,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.hongy.adbclient.R;
 import com.hongy.adbclient.adb.AdbDevice;
 import com.hongy.adbclient.app.MainApplication;
+import com.hongy.adbclient.ui.fragment.ControlerFragment;
 import com.hongy.adbclient.ui.fragment.FunctionFragment;
 import com.hongy.adbclient.ui.fragment.TerminalFragment;
 import com.hongy.adbclient.utils.L;
@@ -110,7 +111,7 @@ public class MainActivity extends AdbBaseActivity implements BottomNavigationVie
                     break;
 
                 case INDEX_CONTROLLER:
-                    fragment = TerminalFragment.newInstance();
+                    fragment = ControlerFragment.newInstance();
                     break;
 
                 case INDEX_TERMINAL:
